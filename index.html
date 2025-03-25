@@ -301,6 +301,8 @@
 
     .tile.removing {
       animation: fadeZoomOut 300ms ease-out forwards;
+      pointer-events: none;
+      z-index: 1;
     }
 
   </style>
@@ -404,9 +406,54 @@
 
     function removeFromQueue(button) {
       const tile = button.parentElement;
+      const queue = document.getElementById('help-queue');
+      const tiles = Array.from(queue.children);
+
+      // Step 1: Record initial positions
+      const firstRects = new Map();
+      tiles.forEach(t => {
+        if (t !== tile) {
+          firstRects.set(t, t.getBoundingClientRect());
+        }
+      });
+
+      // Step 2: Remove the tile visually (with animation)
       tile.classList.add('removing');
-      tile.addEventListener('animationend', () => tile.remove());
+
+      tile.addEventListener('animationend', () => {
+        tile.remove();
+
+        // Step 3: Record final positions
+        requestAnimationFrame(() => {
+          const lastRects = new Map();
+          const newTiles = Array.from(queue.children);
+
+          newTiles.forEach(t => {
+            lastRects.set(t, t.getBoundingClientRect());
+          });
+
+          // Step 4: Apply FLIP transform
+          newTiles.forEach(t => {
+            const first = firstRects.get(t);
+            const last = lastRects.get(t);
+            if (first && last) {
+              const dx = first.left - last.left;
+              const dy = first.top - last.top;
+
+              // Invert
+              t.style.transform = `translate(${dx}px, ${dy}px)`;
+
+              // Play
+              requestAnimationFrame(() => {
+                t.style.transition = 'transform 300ms ease';
+                t.style.transform = '';
+              });
+            }
+          });
+        });
+      }, { once: true });
     }
+
 
     let hideTimeout;
 
