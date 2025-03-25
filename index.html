@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QueueUp Clone</title>
+  <link rel="preload" href="fonts/Heavitas.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/KaushanScript-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/KirimomiSwash.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/Quote.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/Satisfy-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <style>
     @font-face {
       font-family: 'Heavitas';
@@ -44,8 +50,15 @@
       margin: 0;
       padding: 2rem;
       font-family: 'Heavitas', sans-serif;
+
+      /* 👇 Add these */
+      font-size: 1.5rem;
+      line-height: 1.2;
+      font-size-adjust: 0.5;
+      transition: font-family 0.2s ease-in-out;
+
       background-color: #272838;
-      color: #ECF8FD;
+      color: #300;
     }
 
     * {
@@ -85,6 +98,8 @@
     h2 {
       font-size: 2.5rem;
       margin-top: 2rem;
+      height: 3rem;
+      overflow: hidden;
     }
 
     select,
@@ -231,6 +246,16 @@
       opacity: 1;
       transform: scale(1);
       pointer-events: auto;
+    }
+
+    #room-display,
+    h2,
+    .queue-box,
+    button,
+    input,
+    select {
+      font-size: inherit;
+      line-height: 1.2;
     }
 
 
