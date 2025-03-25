@@ -314,6 +314,16 @@
       settings.style.display = settings.style.display === 'none' ? 'block' : 'none';
     }
 
+    // Press Enter on room code → enterRoom()
+    document.getElementById('room-code').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') enterRoom();
+    });
+
+    // Press Enter on station input → addToQueue()
+    document.getElementById('station-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') addToQueue();
+    });
+
 
   </script>
 </body>
