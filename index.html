@@ -243,7 +243,7 @@
       box-shadow: 0 0 0 0px white, 0 0 0 0px #3b82f6;
       position: relative;
       top: 6px; /* ⬅️ small offset to align with clear button */
-      left: 35px;
+      left: 36px;
     }
 
     #settings-icon:hover {
@@ -385,6 +385,19 @@
         <option value="Quote">Quote</option>
         <option value="Satisfy-Regular">Satisfy-Regular</option>
       </select>
+      <hr style="margin: 1rem 0;">
+      <button onclick="openAddQueueModal()" style="width: 100%; padding: 0.5rem; font-size: 1.2rem; border-radius: 8px; background-color: #272838; color: white;">➕ Add Queue</button>
+    </div>
+
+    <div id="queue-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center;">
+      <div style="background: white; padding: 2rem; border-radius: 16px; width: 300px; text-align: center;">
+        <h3 style="margin-bottom: 1rem;">Enter Queue Name</h3>
+        <input id="new-queue-name" type="text" placeholder="e.g. Debug Queue" style="width: 100%; padding: 0.75rem; font-size: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between;">
+          <button onclick="createNewQueue()" style="padding: 0.5rem 1rem; background-color: #272838; color: white; border-radius: 8px;">Create</button>
+          <button onclick="closeAddQueueModal()" style="padding: 0.5rem 1rem; background-color: #ccc; border-radius: 8px;">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <div id="home-view">
@@ -525,6 +538,69 @@
       const queue = document.getElementById('help-queue');
       queue.innerHTML = '';
     }
+
+    function openAddQueueModal() {
+      document.getElementById('queue-modal').style.display = 'flex';
+      document.getElementById('new-queue-name').value = '';
+      document.getElementById('new-queue-name').focus();
+    }
+
+    function closeAddQueueModal() {
+      document.getElementById('queue-modal').style.display = 'none';
+    }
+
+    function createNewQueue() {
+      const name = document.getElementById('new-queue-name').value.trim();
+      if (!name) return alert('Please enter a name.');
+
+      const section = document.createElement('div');
+      section.classList.add('queue-ui');
+      section.innerHTML = `
+        <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 class="queue-title">${name}</h2>
+          <button class="clear-queue-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
+        </div>
+        <div class="queue-section">
+          <input type="text" placeholder="Enter station number" class="station-input" />
+          <button class="add-btn">+</button>
+          <div class="queue-box"></div>
+        </div>
+      `;
+
+      document.getElementById('room-view').appendChild(section);
+
+      section.querySelector('.add-btn').onclick = () => {
+        const input = section.querySelector('.station-input');
+        const val = input.value.trim();
+        const box = section.querySelector('.queue-box');
+
+        if (!val) return alert('Enter a station number');
+        if ([...box.children].some(c => c.dataset.station === val)) {
+          input.value = '';
+          return alert('Already in queue!');
+        }
+
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.dataset.station = val;
+        const addedAt = Date.now();
+        tile.innerHTML = `
+          <div class="station-number">${val}</div>
+          <div class="tile-timer" data-added-at="${addedAt}">0 min</div>
+          <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
+        `;
+        box.appendChild(tile);
+        input.value = '';
+      };
+
+      // Allow enter to work
+      section.querySelector('.station-input').addEventListener('keydown', e => {
+        if (e.key === 'Enter') section.querySelector('.add-btn').click();
+      });
+
+      closeAddQueueModal();
+    }
+
 
     setInterval(updateTime, 1000); // update every second
     updateTime(); // initial call
