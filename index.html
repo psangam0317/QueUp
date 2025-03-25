@@ -122,6 +122,34 @@
       border-radius: 8px;
     }
 
+    .tile {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border: 2px dashed #999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      border-radius: 8px;
+      flex-direction: column;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
   </style>
   
 </head>
@@ -187,19 +215,41 @@
     function addToQueue() {
       const input = document.getElementById('station-input');
       const station = input.value.trim();
+
       if (station === '') {
         alert('Please enter a station number');
         return;
       }
 
       const queue = document.getElementById('help-queue');
+
+      // 🚫 Prevent duplicates
+      const existing = Array.from(queue.children).some(tile => tile.dataset.station === station);
+      if (existing) {
+        alert('This station is already in the queue!');
+        input.value = '';
+        return;
+      }
+
+      // ✅ Create new tile
       const tile = document.createElement('div');
       tile.className = 'tile';
-      tile.textContent = station;
-      queue.appendChild(tile);
+      tile.dataset.station = station;
+      tile.innerHTML = `
+        ${station}
+        <button class="remove-btn" onclick="removeFromQueue(this)">✖</button>
+      `;
 
+      queue.appendChild(tile);
       input.value = '';
     }
+
+    function removeFromQueue(button) {
+      const tile = button.parentElement;
+      tile.remove();
+    }
+
+
   </script>
 </body>
 </html>
