@@ -214,6 +214,19 @@
       user-select: none;
     }
 
+    #font-settings {
+      position: absolute;
+      top: 80px;
+      right: 40px;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      display: none;
+      transition: opacity 0.3s ease;
+    }
 
   </style>
   
@@ -227,7 +240,7 @@
     </div>
 
     <!-- Hidden font selector -->
-    <div id="font-settings" style="display: none;">
+    <div id="font-settings" onmouseenter="clearTimeout(hideTimeout)" onmouseleave="toggleFontSelector()">
       <label for="font-select">Choose a font:</label>
       <select id="font-select" onchange="changeFont()">
         <option value="Heavitas">Heavitas</option>
@@ -236,7 +249,7 @@
         <option value="Quote">Quote</option>
         <option value="Satisfy-Regular">Satisfy-Regular</option>
       </select>
-    </div>
+    </div>    
 
     <div id="home-view">
       <h2>Enter Room Code</h2>
@@ -265,7 +278,6 @@
       if (code.length === 5) {
         document.getElementById('home-view').style.display = 'none';
         document.getElementById('room-view').style.display = 'block';
-        // document.getElementById('room-name').textContent = code;
         document.getElementById('room-display').textContent = `Room: ${code}`;
         document.getElementById('queue-ui').style.display = 'block';
       } else {
@@ -315,9 +327,21 @@
       tile.remove();
     }
 
+    let hideTimeout;
+
     function toggleFontSelector() {
       const settings = document.getElementById('font-settings');
-      settings.style.display = settings.style.display === 'none' ? 'block' : 'none';
+
+      // Show the popup
+      settings.style.display = 'block';
+
+      // Clear existing timer
+      clearTimeout(hideTimeout);
+
+      // Start 3-second timer to hide
+      hideTimeout = setTimeout(() => {
+        settings.style.display = 'none';
+      }, 3000);
     }
 
     // Press Enter on room code → enterRoom()
