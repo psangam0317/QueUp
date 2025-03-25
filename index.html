@@ -221,8 +221,26 @@
 
     #settings-icon {
       cursor: pointer;
-      font-size: 1.8rem;
-      user-select: none;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border-radius: 50%;
+      background-color: #272838;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #settings-icon:hover {
+      background-color: #3b3f55;
+      transform: scale(1.1);
+    }
+
+    #settings-icon svg {
+      width: 24px;
+      height: 24px;
     }
 
     #font-settings {
