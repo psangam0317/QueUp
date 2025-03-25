@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,6 @@
   <link rel="preload" href="fonts/KirimomiSwash.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/Quote.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/Satisfy-Regular.ttf" as="font" type="font/ttf" crossorigin>
-
   <style>
     @font-face {
       font-family: 'Heavitas';
@@ -200,16 +200,6 @@
       transition: transform 0.1s ease;
     }
 
-
-    /* #top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      font-size: 3.5rem;
-      position: relative;
-    } */
-
     #top-bar {
       display: flex;
       justify-content: space-between;
@@ -369,18 +359,14 @@
     }
 
   </style>
-  
 </head>
 <body>
   <main>
-    <!-- Top Bar with Room Info + Settings Icon -->
     <div id="top-bar">
       <div id="room-display"></div>
       <div id="time-display"></div> 
       <div id="settings-icon" onclick="toggleFontSelector()" title="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             class="feather feather-settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
           <circle cx="12" cy="12" r="3"></circle>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 
                    1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 
@@ -396,10 +382,7 @@
       </div>      
     </div>
 
-    <!-- Hidden font selector -->
-    <div id="font-settings" 
-         onmouseenter="clearTimeout(hideTimeout)" 
-         onmouseleave="toggleFontSelector()">
+    <div id="font-settings" onmouseenter="clearTimeout(hideTimeout)" onmouseleave="toggleFontSelector()">
       <label for="font-select">Choose a font:</label>
       <select id="font-select" onchange="changeFont()">
         <option value="Heavitas">Heavitas</option>
@@ -429,137 +412,26 @@
       <button onclick="enterRoom()">Enter Room</button>
     </div>
 
-    <div id="room-view" style="display: none;">
-      <!-- <h2>Room: <span id="room-name">ABC12</span></h2> -->
-      <div id="queue-ui" style="display: none;">
-        <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
-          <h2 id="queue-title">Help Queue</h2>
-          <button id="clear-queue-btn" onclick="clearQueue()">✖</button>
-        </div>
-        <div class="queue-section">
-          <input type="text" id="station-input" placeholder="Enter station number" />
-          <button onclick="addToQueue()">+</button>
-          <div id="help-queue" class="queue-box"></div>
-        </div>
-      </div>
-      
-    </div>
+    <div id="room-view" style="display: none;"></div>
 
   </main>
-
   <script>
+    const roomView = document.getElementById('room-view');
+
     function enterRoom() {
       const code = document.getElementById('room-code').value.trim().toUpperCase();
       if (code.length === 5) {
         document.getElementById('home-view').style.display = 'none';
-        document.getElementById('room-view').style.display = 'block';
+        roomView.style.display = 'block';
         document.getElementById('room-display').textContent = `Room: ${code}`;
-        document.getElementById('queue-ui').style.display = 'block';
       } else {
         alert('Please enter a valid 5-character room code.');
       }
     }
 
-
     function changeFont() {
       const font = document.getElementById('font-select').value;
       document.body.style.fontFamily = `'${font}', sans-serif`;
-    }
-    function addToQueue() {
-      const input = document.getElementById('station-input');
-      const station = input.value.trim();
-
-      if (station === '') {
-        alert('Please enter a station number');
-        return;
-      }
-
-      const queue = document.getElementById('help-queue');
-
-      // 🚫 Prevent duplicates
-      const existing = Array.from(queue.children).some(tile => tile.dataset.station === station);
-      if (existing) {
-        alert('This station is already in the queue!');
-        input.value = '';
-        return;
-      }
-
-      // ✅ Create new tile
-      const tile = document.createElement('div');
-      tile.className = 'tile';
-      tile.dataset.station = station;
-      const addedAt = Date.now();
-      tile.innerHTML = `
-        <div class="station-number">${station}</div>
-        <div class="tile-timer" data-added-at="${addedAt}">0 min</div>
-        <button class="remove-btn" onclick="removeFromQueue(this)">✖</button>
-      `;
-
-      queue.appendChild(tile);
-      input.value = '';
-    }
-
-    function removeFromQueue(button) {
-      const tile = button.parentElement;
-      tile.remove();
-    }
-
-    let hideTimeout;
-
-    function toggleFontSelector() {
-      const settings = document.getElementById('font-settings');
-
-      // Add animation class
-      settings.classList.add('show');
-
-      // Clear any existing hide timer
-      clearTimeout(hideTimeout);
-
-      // Set timeout to hide with fade-out
-      hideTimeout = setTimeout(() => {
-        settings.classList.remove('show');
-      }, 3000);
-    }
-
-
-    // Press Enter on room code → enterRoom()
-    document.getElementById('room-code').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') enterRoom();
-    });
-
-    // Press Enter on station input → addToQueue()
-    document.getElementById('station-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') addToQueue();
-    });
-
-    function updateTime() {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      });
-      document.getElementById('time-display').textContent = timeString;
-    }
-
-    function updateTileTimers() {
-      const now = Date.now();
-      document.querySelectorAll('.tile-timer').forEach(timer => {
-        const addedAt = parseInt(timer.getAttribute('data-added-at'));
-        const elapsedMs = now - addedAt;
-
-        if (elapsedMs < 60000) {
-          timer.textContent = "just now";
-        } else {
-          const minutes = Math.floor(elapsedMs / 60000);
-          timer.textContent = `${minutes} min`;
-        }
-      });
-    }
-
-    function clearQueue() {
-      const queue = document.getElementById('help-queue');
-      queue.innerHTML = '';
     }
 
     function openAddQueueModal() {
@@ -577,8 +449,6 @@
       if (!name) return alert('Please enter a name.');
 
       const section = document.createElement('div');
-      section.classList.add('queue-ui');
-
       section.innerHTML = `
         <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
           <h2 id="queue-title">${name}</h2>
@@ -590,8 +460,6 @@
           <div class="queue-box"></div>
         </div>
       `;
-
-      document.getElementById('room-view').appendChild(section);
 
       const input = section.querySelector('.station-input');
       const addBtn = section.querySelector('.add-btn');
@@ -610,9 +478,9 @@
         tile.dataset.station = val;
         const addedAt = Date.now();
         tile.innerHTML = `
-          <div class="station-number" style="font-size: 3.5rem;">${val}</div>
-          <div class="tile-timer" data-added-at="${addedAt}" style="font-size: 1rem; margin-top: 0.5rem; color: #333;">just now</div>
-          <button class="remove-btn" style="position: absolute; top: -16px; right: -16px; width: 40px; height: 40px; background-color: #815355; color: white; border: none; border-radius: 50%; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); transition: transform 0.1s ease;" onclick="this.parentElement.remove()">✖</button>
+          <div class="station-number">${val}</div>
+          <div class="tile-timer" data-added-at="${addedAt}">just now</div>
+          <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
         `;
         box.appendChild(tile);
         input.value = '';
@@ -622,15 +490,38 @@
         if (e.key === 'Enter') addBtn.click();
       });
 
+      roomView.appendChild(section);
       closeAddQueueModal();
     }
 
-    setInterval(updateTime, 1000); // update every second
-    updateTime(); // initial call
+    function toggleFontSelector() {
+      const settings = document.getElementById('font-settings');
+      settings.classList.add('show');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => settings.classList.remove('show'), 3000);
+    }
 
-    setInterval(updateTileTimers, 1000); // update every minute
-    updateTileTimers(); // initial call
+    function updateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {
+        hour: '2-digit', minute: '2-digit', hour12: true
+      });
+      document.getElementById('time-display').textContent = timeString;
+    }
 
+    function updateTileTimers() {
+      const now = Date.now();
+      document.querySelectorAll('.tile-timer').forEach(timer => {
+        const addedAt = parseInt(timer.getAttribute('data-added-at'));
+        const elapsedMs = now - addedAt;
+        timer.textContent = elapsedMs < 60000 ? "just now" : `${Math.floor(elapsedMs / 60000)} min`;
+      });
+    }
+
+    setInterval(updateTime, 1000);
+    setInterval(updateTileTimers, 1000);
+    updateTime();
+    updateTileTimers();
   </script>
 </body>
 </html>
