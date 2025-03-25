@@ -381,7 +381,7 @@
       </div>      
     </div>
 
-    <div id="font-settings" onmouseenter="clearTimeout(hideTimeout)" onmouseleave="toggleFontSelector()">
+    <div id="font-settings" onmouseenter="clearTimeout(hideTimeout)" onmouseleave="hideFontSelector()">
       <label for="font-select">Choose a font:</label>
       <select id="font-select" onchange="changeFont()">
         <option value="Heavitas">Heavitas</option>
@@ -415,6 +415,7 @@
 
   </main>
   <script>
+    let hideTimeout;
     const roomView = document.getElementById('room-view');
 
     function enterRoom() {
@@ -497,8 +498,14 @@
       const settings = document.getElementById('font-settings');
       settings.classList.add('show');
       clearTimeout(hideTimeout);
-      hideTimeout = setTimeout(() => settings.classList.remove('show'), 3000);
+      hideTimeout = setTimeout(() => hideFontSelector(), 3000);
     }
+
+    function hideFontSelector() {
+      const settings = document.getElementById('font-settings');
+      settings.classList.remove('show');
+    }
+
 
     function updateTime() {
       const now = new Date();
