@@ -170,14 +170,7 @@
       margin-top: 2rem;
     }
 
-    #station-input {
-      padding: 0.5rem;
-      width: 70%;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-right: 0.5rem;
-    }
+    
 
     .queue-box {
       display: flex;
@@ -337,34 +330,38 @@
       transform: scale(1.05);
     }
 
+    .input-row {
+      display: flex;
+      align-items: center;   /* This ensures vertical alignment */
+      gap: 1rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    #station-input {
+      flex-grow: 1;   /* Take up available width */
+      height: 48px;   /* Match with button below */
+    }
+
     #add-to-queue-btn {
-      background-color: #272838;
-      color: white;
-      border: none;
       width: 48px;
       height: 48px;
-      font-size: 1.5rem;
       border-radius: 50%;
+      background-color: #272838;
+      color: white;
+      font-size: 1.5rem;
+      border: none;
       cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-      box-shadow: 0 0 0 0px white, 0 0 0 0px #3b82f6;
+      transition: transform 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     #add-to-queue-btn:hover {
-      background-color: #4b4d63;
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
 
-    .input-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      width: 100%;
-      max-width: 800px; /* Optional max width */
-    }
 
 
   </style>
