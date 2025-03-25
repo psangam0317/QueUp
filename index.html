@@ -145,14 +145,13 @@
       margin-top: 2rem;
       display: flex;
       align-items: center;
-      justify-content: center; /* center horizontally */
       gap: 0.5rem;
     }
 
     .station-input {
-      width: 100%;
-      max-width: 400px;
-      padding: 0.5rem 0.75rem;
+      width: 100%; /* tighter width for 2 digits */
+      max-width: 800px;
+      padding: 0.6rem 1rem;
       font-size: 1.2rem;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -281,12 +280,10 @@
       line-height: 1.2;
     }
 
-    #queue-title {
+    .queue-title {
       font-size: 3.5rem;
       margin: 0;
       padding: 0.5rem 0;
-      display: inline-block;
-      vertical-align: middle;
       line-height: 1.2;
     }
 
@@ -294,6 +291,9 @@
       overflow: visible;
       line-height: 1.2;
       margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     #time-display {
@@ -383,6 +383,14 @@
       background-color: #4b4d63;
       transform: scale(1.05);
     }
+
+    .queue-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
 
   </style>
 </head>
@@ -477,16 +485,17 @@
 
       const section = document.createElement('div');
       section.innerHTML = `
-        <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
-          <h2 id="queue-title">${name}</h2>
-          <button class="clear-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
+        <div class="heading-container">
+          <h2 class="queue-title">${name}</h2>
+          <button class="clear-btn" onclick="this.parentElement.nextElementSibling.nextElementSibling.innerHTML = ''">✖</button>
         </div>
-        <div class="queue-section">
+        <div class="queue-input-row">
           <input type="text" placeholder="Enter station number" class="station-input" />
           <button class="add-btn">+</button>
-          <div class="queue-box"></div>
         </div>
+        <div class="queue-box"></div>
       `;
+
 
       const input = section.querySelector('.station-input');
       const addBtn = section.querySelector('.add-btn');
