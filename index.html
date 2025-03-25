@@ -81,13 +81,14 @@
   
     main {
       width: 100%;
-      height: 100%;
-      padding: 4rem 6rem;
+      min-height: 100vh; /* ✅ Allow it to expand beyond screen height */
+      padding: 4rem 6rem 6rem; /* ✅ Extra padding at the bottom */
       background-color: #afcbd5;
       font-size: 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 3rem;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -161,11 +162,12 @@
     }
 
     .queue-box {
-      display: flex;                /* This is important */
-      flex-wrap: wrap;             /* Allow wrapping */
-      justify-content: flex-start; /* Align tiles to the left */
-      gap: 2rem;                   /* Space between tiles */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 2rem;
       margin-top: 2rem;
+      margin-bottom: 4rem; /* ✅ Add space below the last row */
     }
 
     .queue-box .tile {
