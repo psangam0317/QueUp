@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QueueUp Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background-color: #3b82f6;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .queue {
+      margin-top: 2rem;
+    }
+    .queue-item {
+      padding: 0.75rem;
+      background-color: #e0f2fe;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>QueueUp (Clone)</h1>
+  </header>
+  <main>
+    <div id="home-view">
+      <h2>Enter Room Code</h2>
+      <input type="text" id="room-code" placeholder="e.g. ABC12" />
+      <button onclick="enterRoom()">Enter Room</button>
+    </div>
+
+    <div id="room-view" style="display: none;">
+      <h2>Room: <span id="room-name">ABC12</span></h2>
+      <div class="queue">
+        <div class="queue-item">🧑 Alice</div>
+        <div class="queue-item">🧑 Bob</div>
+        <div class="queue-item">🧑 Charlie</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function enterRoom() {
+      const code = document.getElementById('room-code').value.trim().toUpperCase();
+      if (code.length === 5) {
+        document.getElementById('home-view').style.display = 'none';
+        document.getElementById('room-view').style.display = 'block';
+        document.getElementById('room-name').textContent = code;
+      } else {
+        alert('Please enter a valid 5-character room code.');
+      }
+    }
+  </script>
+</body>
+</html>
