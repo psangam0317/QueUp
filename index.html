@@ -153,7 +153,14 @@
       margin-top: 2rem;
     }
 
-    
+    #station-input {
+      padding: 0.5rem;
+      width: 70%;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-right: 0.5rem;
+    }
 
     .queue-box {
       display: flex;
@@ -313,46 +320,6 @@
       transform: scale(1.05);
     }
 
-    .input-row {
-      display: flex;
-      align-items: center;   /* This ensures vertical alignment */
-      gap: 1rem;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    #station-input {
-      flex-grow: 1;
-      height: 48px;  /* Match the button height */
-      font-size: 1rem;
-      padding: 0 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    #add-to-queue-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background-color: #272838;
-      color: white;
-      font-size: 1.5rem;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s ease;
-      line-height: 1;
-      padding: 0;
-      margin: 0;
-      /* bottom: 50px; */
-    }
-
-    #add-to-queue-btn:hover {
-      transform: scale(1.1);
-    }
-
   </style>
   
 </head>
@@ -393,10 +360,8 @@
           <button id="clear-queue-btn" onclick="clearQueue()">✖</button>
         </div>
         <div class="queue-section">
-          <div class="input-row">
-            <input type="text" id="station-input" placeholder="Enter station number" />
-            <button id="add-to-queue-btn" onclick="addToQueue()">+</button>
-          </div>          
+          <input type="text" id="station-input" placeholder="Enter station number" />
+          <button onclick="addToQueue()">+</button>
           <div id="help-queue" class="queue-box"></div>
         </div>
       </div>
