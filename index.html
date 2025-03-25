@@ -224,9 +224,17 @@
       padding: 1rem;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
       z-index: 100;
-      display: none;
-      transition: opacity 0.3s ease;
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.2s ease;
     }
+    #font-settings.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
 
   </style>
   
@@ -240,7 +248,9 @@
     </div>
 
     <!-- Hidden font selector -->
-    <div id="font-settings" onmouseenter="clearTimeout(hideTimeout)" onmouseleave="toggleFontSelector()">
+    <div id="font-settings" 
+         onmouseenter="clearTimeout(hideTimeout)" 
+         onmouseleave="toggleFontSelector()">
       <label for="font-select">Choose a font:</label>
       <select id="font-select" onchange="changeFont()">
         <option value="Heavitas">Heavitas</option>
@@ -249,7 +259,7 @@
         <option value="Quote">Quote</option>
         <option value="Satisfy-Regular">Satisfy-Regular</option>
       </select>
-    </div>    
+    </div>
 
     <div id="home-view">
       <h2>Enter Room Code</h2>
@@ -332,17 +342,18 @@
     function toggleFontSelector() {
       const settings = document.getElementById('font-settings');
 
-      // Show the popup
-      settings.style.display = 'block';
+      // Add animation class
+      settings.classList.add('show');
 
-      // Clear existing timer
+      // Clear any existing hide timer
       clearTimeout(hideTimeout);
 
-      // Start 3-second timer to hide
+      // Set timeout to hide with fade-out
       hideTimeout = setTimeout(() => {
-        settings.style.display = 'none';
+        settings.classList.remove('show');
       }, 3000);
     }
+
 
     // Press Enter on room code → enterRoom()
     document.getElementById('room-code').addEventListener('keydown', function(e) {
