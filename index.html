@@ -149,11 +149,12 @@
     }
 
     .queue-box {
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 2rem;
+      display: flex;                /* This is important */
+      flex-wrap: wrap;             /* Allow wrapping */
+      justify-content: flex-start; /* Align tiles to the left */
+      gap: 2rem;                   /* Space between tiles */
+      margin-top: 2rem;
     }
-
 
     .queue-box .tile {
       width: 60px;
@@ -177,12 +178,10 @@
       justify-content: center;
       align-items: center;
       font-weight: bold;
-      border-radius: 16px;
+      border-radius: 48px;
       flex-direction: column;
       font-size: 4rem;
     }
-
-
 
     .remove-btn {
       position: absolute;
