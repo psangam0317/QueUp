@@ -339,8 +339,12 @@
     }
 
     #station-input {
-      flex-grow: 1;   /* Take up available width */
-      height: 48px;   /* Match with button below */
+      flex-grow: 1;
+      height: 48px;  /* Match the button height */
+      font-size: 1rem;
+      padding: 0 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     #add-to-queue-btn {
@@ -352,17 +356,18 @@
       font-size: 1.5rem;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.2s ease;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
     }
 
     #add-to-queue-btn:hover {
       transform: scale(1.1);
     }
-
-
 
   </style>
   
