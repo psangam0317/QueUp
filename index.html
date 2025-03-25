@@ -298,6 +298,22 @@
       color: #333;
     }
 
+    #clear-queue-btn {
+      background-color: #272838;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      font-size: 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-left: 1rem;
+    }
+
+    #clear-queue-btn:hover {
+      background-color: #4b4d63;
+    }
+
   </style>
   
 </head>
@@ -333,8 +349,9 @@
     <div id="room-view" style="display: none;">
       <!-- <h2>Room: <span id="room-name">ABC12</span></h2> -->
       <div id="queue-ui" style="display: none;">
-        <div class="heading-container">
+        <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
           <h2 id="queue-title">Help Queue</h2>
+          <button id="clear-queue-btn" onclick="clearQueue()">✖</button>
         </div>
         <div class="queue-section">
           <input type="text" id="station-input" placeholder="Enter station number" />
@@ -455,6 +472,11 @@
           timer.textContent = `${minutes} min`;
         }
       });
+    }
+
+    function clearQueue() {
+      const queue = document.getElementById('help-queue');
+      queue.innerHTML = '';
     }
 
     setInterval(updateTime, 1000); // update every second
