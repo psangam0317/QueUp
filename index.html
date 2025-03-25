@@ -151,12 +151,15 @@
         <div class="queue-item">🧑 Bob</div>
         <div class="queue-item">🧑 Charlie</div>
       </div>
-    </div>
-    <h2>Help Queue</h2>
-    <div class="queue-section">
-      <input type="text" id="station-input" placeholder="Enter station number" />
-      <button onclick="addToQueue()">+</button>
-      <div id="help-queue" class="queue-box"></div>
+      <div id="queue-ui" style="display: none;">
+        <h2>Help Queue</h2>
+        <div class="queue-section">
+          <input type="text" id="station-input" placeholder="Enter station number" />
+          <button onclick="addToQueue()">+</button>
+          <div id="help-queue" class="queue-box"></div>
+        </div>
+      </div>
+      
     </div>
 
   </main>
@@ -168,10 +171,15 @@
         document.getElementById('home-view').style.display = 'none';
         document.getElementById('room-view').style.display = 'block';
         document.getElementById('room-name').textContent = code;
+
+        // 👇 Show the queue UI once a room is joined
+        document.getElementById('queue-ui').style.display = 'block';
+
       } else {
         alert('Please enter a valid 5-character room code.');
       }
     }
+
     function changeFont() {
       const font = document.getElementById('font-select').value;
       document.body.style.fontFamily = `'${font}', sans-serif`;
