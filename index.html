@@ -343,7 +343,7 @@
       height: 50px;
       font-size: 1.8rem;
       font-weight: bold;
-      border-radius: 16px; /* ✅ squircle instead of circle */
+      border-radius: 50%; /* ✅ squircle instead of circle */
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -452,7 +452,7 @@
       section.innerHTML = `
         <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
           <h2 id="queue-title">${name}</h2>
-          <button class="clear-queue-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
+          <button class="add-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
         </div>
         <div class="queue-section">
           <input type="text" placeholder="Enter station number" class="station-input" />
