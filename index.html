@@ -285,6 +285,16 @@
       white-space: nowrap;
     }
 
+    .tile .station-number {
+      font-size: 3.5rem;
+    }
+
+    .tile-timer {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: #333;
+    }
+
   </style>
   
 </head>
@@ -375,8 +385,10 @@
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.dataset.station = station;
+      const addedAt = Date.now();
       tile.innerHTML = `
-        ${station}
+        <div class="station-number">${station}</div>
+        <div class="tile-timer" data-added-at="${addedAt}">0 min</div>
         <button class="remove-btn" onclick="removeFromQueue(this)">✖</button>
       `;
 
@@ -427,8 +439,20 @@
       document.getElementById('time-display').textContent = timeString;
     }
 
+    function updateTileTimers() {
+      const now = Date.now();
+      document.querySelectorAll('.tile-timer').forEach(timer => {
+        const addedAt = parseInt(timer.getAttribute('data-added-at'));
+        const minutes = Math.floor((now - addedAt) / 60000); // milliseconds to minutes
+        timer.textContent = minutes === 0 ? "just now" : `${minutes} min`;
+      });
+    }
+
     setInterval(updateTime, 1000); // update every second
     updateTime(); // initial call
+
+    setInterval(updateTileTimers, 60000); // update every minute
+    updateTileTimers(); // initial call
 
   </script>
 </body>
