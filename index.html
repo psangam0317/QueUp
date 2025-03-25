@@ -143,15 +143,17 @@
     }
     .queue-section {
       margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    #station-input {
-      padding: 0.5rem;
-      width: 70%;
-      font-size: 1rem;
-      border-radius: 8px;
+    .station-input {
+      width: 120px; /* tighter width for 2 digits */
+      padding: 0.6rem 1rem;
+      font-size: 1.2rem;
       border: 1px solid #ccc;
-      margin-right: 0.5rem;
+      border-radius: 8px;
     }
 
     .queue-box {
@@ -335,6 +337,29 @@
     }
 
     /* Reuse for all add buttons */
+    .clear-btn {
+      background-color: #272838;
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-radius: 50%; /* ✅ squircle instead of circle */
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 0 0 0px white, 0 0 0 0px #3b82f6;
+    }
+
+    .clear-btn:hover {
+      background-color: #4b4d63;
+      transform: scale(1.05);
+    }
+
+    /* Reuse for all add buttons */
     .add-btn {
       background-color: #272838;
       color: white;
@@ -452,7 +477,7 @@
       section.innerHTML = `
         <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
           <h2 id="queue-title">${name}</h2>
-          <button class="add-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
+          <button class="clear-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
         </div>
         <div class="queue-section">
           <input type="text" placeholder="Enter station number" class="station-input" />
