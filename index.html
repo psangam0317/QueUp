@@ -50,13 +50,10 @@
       margin: 0;
       padding: 2rem;
       font-family: 'KirimomiSwash', sans-serif;
-
-      /* 👇 Add these */
       font-size: 1.5rem;
       line-height: 1.2;
       font-size-adjust: 0.5;
       transition: font-family 0.2s ease-in-out;
-
       background-color: #272838;
       color: #300;
     }
@@ -65,155 +62,39 @@
       box-sizing: border-box;
     }
 
-    select {
-      padding: 0.75rem;
-      margin-top: 1rem;
-      border-radius: 8px;
-      font-size: 1.25rem;
-    }
-  
-    header {
-      background-color: #3b82f6;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-  
-    main {
-      width: 100%;
-      height: 100%;
-      padding: 4rem 6rem;
-      background-color: #afcbd5;
-      font-size: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
+    @keyframes fadeZoomOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
     }
 
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    .tile.removing {
+      animation: fadeZoomOut 300ms ease-out forwards;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    h2 {
-      font-size: 3rem;
-      margin-top: 2rem;
-      line-height: 1.2;
+    .tile {
+      transition: transform 300ms ease;
     }
-
-    select,
-    input[type="text"] {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.4rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      padding: 1rem 1.5rem;
-      font-size: 1.4rem;
-      border-radius: 10px;
-    }
-
-
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-  
-    button {
-      background-color: #272838;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.25rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: poHeavitas;
-    }
-  
-    .queue {
-      margin-top: 2rem;
-    }
-  
-    .queue-item {
-      padding: 0.75rem;
-      background-color: #e0f2fe;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-    }
-    .queue-section {
-      margin-top: 2rem;
-    }
-
-    #station-input {
-      padding: 0.5rem;
-      width: 70%;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-right: 0.5rem;
-    }
-
-    .queue-box {
-      display: flex;                /* This is important */
-      flex-wrap: wrap;             /* Allow wrapping */
-      justify-content: flex-start; /* Align tiles to the left */
-      gap: 2rem;                   /* Space between tiles */
-      margin-top: 2rem;
-      transition: all 200ms ease-in-out;
-    }
-
-    .queue-box .tile {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      background-color: rgb(255, 200, 0);
-      border: 2px dashed #000000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      border-radius: 16px;
-      flex-direction: column;
-      font-size: 3.5rem; /* Make the number match the tile size */
-      transition: transform 200ms ease, opacity 200ms ease;
-    }
-
-
-    .remove-btn {
-      position: absolute;
-      top: -16px;
-      right: -16px;
-      width: 40px;
-      height: 40px;
-      background-color: #815355;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 24px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s ease;
-    }
-
 
     #top-bar {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       font-size: 3.5rem;
       gap: 1.5rem;
+    }
+
+    #clock {
+      font-size: 1.2rem;
+      font-weight: bold;
     }
 
     #room-display {
@@ -246,20 +127,11 @@
       pointer-events: none;
       transition: opacity 0.3s ease, transform 0.2s ease;
     }
+
     #font-settings.show {
       opacity: 1;
       transform: scale(1);
       pointer-events: auto;
-    }
-
-    #room-display,
-    h2,
-    .queue-box,
-    button,
-    input,
-    select {
-      font-size: inherit;
-      line-height: 1.2;
     }
 
     #queue-title {
@@ -277,47 +149,23 @@
       margin-bottom: 1rem;
     }
 
-    #time-display {
-      font-size: 1.4rem;
-      margin-left: auto;
-      margin-right: 1rem;
-      color: #333;
-      font-weight: 600;
-      white-space: nowrap;
-      min-width: 110px;
-      text-align: right;
+    .queue-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 2rem;
+      margin-top: 2rem;
     }
-
-    @keyframes fadeZoomOut {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-    }
-
-    .tile.removing {
-      animation: fadeZoomOut 300ms ease-out forwards;
-      pointer-events: none;
-      z-index: 1;
-    }
-
   </style>
-  
 </head>
 <body>
   <main>
-    <!-- Top Bar with Room Info + Settings Icon -->
     <div id="top-bar">
+      <div id="clock"></div>
       <div id="room-display"></div>
-      <div id="time-display"></div> 
       <div id="settings-icon" onclick="toggleFontSelector()">⚙️</div>
     </div>
 
-    <!-- Hidden font selector -->
     <div id="font-settings" 
          onmouseenter="clearTimeout(hideTimeout)" 
          onmouseleave="toggleFontSelector()">
@@ -338,7 +186,6 @@
     </div>
 
     <div id="room-view" style="display: none;">
-      <!-- <h2>Room: <span id="room-name">ABC12</span></h2> -->
       <div id="queue-ui" style="display: none;">
         <div class="heading-container">
           <h2 id="queue-title">Help Queue</h2>
@@ -349,12 +196,18 @@
           <div id="help-queue" class="queue-box"></div>
         </div>
       </div>
-      
     </div>
-
   </main>
 
   <script>
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      document.getElementById('clock').textContent = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
     function enterRoom() {
       const code = document.getElementById('room-code').value.trim().toUpperCase();
       if (code.length === 5) {
@@ -367,39 +220,29 @@
       }
     }
 
-
     function changeFont() {
       const font = document.getElementById('font-select').value;
       document.body.style.fontFamily = `'${font}', sans-serif`;
     }
+
     function addToQueue() {
       const input = document.getElementById('station-input');
       const station = input.value.trim();
-
       if (station === '') {
         alert('Please enter a station number');
         return;
       }
-
       const queue = document.getElementById('help-queue');
-
-      // 🚫 Prevent duplicates
       const existing = Array.from(queue.children).some(tile => tile.dataset.station === station);
       if (existing) {
         alert('This station is already in the queue!');
         input.value = '';
         return;
       }
-
-      // ✅ Create new tile
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.dataset.station = station;
-      tile.innerHTML = `
-        ${station}
-        <button class="remove-btn" onclick="removeFromQueue(this)">✖</button>
-      `;
-
+      tile.innerHTML = `${station} <button class="remove-btn" onclick="removeFromQueue(this)">✖</button>`;
       queue.appendChild(tile);
       input.value = '';
     }
@@ -408,42 +251,22 @@
       const tile = button.parentElement;
       const queue = document.getElementById('help-queue');
       const tiles = Array.from(queue.children);
-
-      // Step 1: Record initial positions
       const firstRects = new Map();
-      tiles.forEach(t => {
-        if (t !== tile) {
-          firstRects.set(t, t.getBoundingClientRect());
-        }
-      });
-
-      // Step 2: Remove the tile visually (with animation)
+      tiles.forEach(t => { if (t !== tile) firstRects.set(t, t.getBoundingClientRect()); });
       tile.classList.add('removing');
-
       tile.addEventListener('animationend', () => {
         tile.remove();
-
-        // Step 3: Record final positions
         requestAnimationFrame(() => {
           const lastRects = new Map();
           const newTiles = Array.from(queue.children);
-
-          newTiles.forEach(t => {
-            lastRects.set(t, t.getBoundingClientRect());
-          });
-
-          // Step 4: Apply FLIP transform
+          newTiles.forEach(t => lastRects.set(t, t.getBoundingClientRect()));
           newTiles.forEach(t => {
             const first = firstRects.get(t);
             const last = lastRects.get(t);
             if (first && last) {
               const dx = first.left - last.left;
               const dy = first.top - last.top;
-
-              // Invert
               t.style.transform = `translate(${dx}px, ${dy}px)`;
-
-              // Play
               requestAnimationFrame(() => {
                 t.style.transition = 'transform 300ms ease';
                 t.style.transform = '';
@@ -454,48 +277,22 @@
       }, { once: true });
     }
 
-
     let hideTimeout;
-
     function toggleFontSelector() {
       const settings = document.getElementById('font-settings');
-
-      // Add animation class
       settings.classList.add('show');
-
-      // Clear any existing hide timer
       clearTimeout(hideTimeout);
-
-      // Set timeout to hide with fade-out
       hideTimeout = setTimeout(() => {
         settings.classList.remove('show');
       }, 3000);
     }
 
-
-    // Press Enter on room code → enterRoom()
-    document.getElementById('room-code').addEventListener('keydown', function(e) {
+    document.getElementById('room-code').addEventListener('keydown', e => {
       if (e.key === 'Enter') enterRoom();
     });
-
-    // Press Enter on station input → addToQueue()
-    document.getElementById('station-input').addEventListener('keydown', function(e) {
+    document.getElementById('station-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') addToQueue();
     });
-
-    function updateTime() {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      document.getElementById('time-display').textContent = timeString;
-    }
-
-    setInterval(updateTime, 1000); // update every second
-    updateTime(); // initial call
-
   </script>
 </body>
 </html>
