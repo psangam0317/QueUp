@@ -345,6 +345,29 @@
       transform: scale(1.05);
     }
 
+    /* Reuse for all add buttons */
+    .add-btn {
+      background-color: #272838;
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-radius: 16px; /* ✅ squircle instead of circle */
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 0 0 0px white, 0 0 0 0px #3b82f6;
+    }
+
+    .add-btn:hover {
+      background-color: #4b4d63;
+      transform: scale(1.05);
+    }
+
   </style>
   
 </head>
@@ -558,15 +581,13 @@
 
       section.innerHTML = `
         <div class="heading-container" style="display: flex; justify-content: space-between; align-items: center;">
-          <h2 class="queue-title" style="font-size: 3.5rem; margin: 0; padding: 0.5rem 0; line-height: 1.2;">${name}</h2>
-          <button class="clear-queue-btn" style="background-color: #272838; color: white; border: none; width: 50px; height: 50px; font-size: 1.8rem; font-weight: bold; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, transform 0.2s ease; box-shadow: 0 0 0 0px white, 0 0 0 0px #3b82f6;" onclick="this.closest('.queue-ui').querySelector('.queue-box').innerHTML = ''">✖</button>
+          <h2 id="queue-title">${name}</h2>
+          <button class="clear-queue-btn" onclick="this.parentElement.nextElementSibling.querySelector('.queue-box').innerHTML = ''">✖</button>
         </div>
-        <div class="queue-section" style="margin-top: 2rem;">
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="text" placeholder="Enter station number" class="station-input" style="padding: 0.5rem; width: 70%; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc;">
-            <button class="add-btn" style="background-color: #272838; color: white; border: none; width: 50px; height: 50px; font-size: 1.5rem; font-weight: bold; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, transform 0.2s ease;">+</button>
-          </div>
-          <div class="queue-box" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 2rem; margin-top: 2rem; margin-bottom: 4rem;"></div>
+        <div class="queue-section">
+          <input type="text" placeholder="Enter station number" class="station-input" />
+          <button class="add-btn">+</button>
+          <div class="queue-box"></div>
         </div>
       `;
 
