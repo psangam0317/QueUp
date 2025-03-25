@@ -393,6 +393,31 @@
 
 
   </style>
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+
+  <!-- Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1rmZ5IGCk1u6LOPT_ATJGRTebvwBYiKw",
+      authDomain: "queup-1cccf.firebaseapp.com",
+      databaseURL: "https://queup-1cccf-default-rtdb.firebaseio.com",
+      projectId: "queup-1cccf",
+      storageBucket: "queup-1cccf.appspot.com",
+      messagingSenderId: "664188234347",
+      appId: "1:664188234347:web:b689ad728634ae7e439f2e"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database
+    const db = firebase.database();
+  </script>
+
 </head>
 <body>
   <main>
@@ -432,7 +457,7 @@
     <div id="queue-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center;">
       <div style="background: white; padding: 2rem; border-radius: 16px; width: 500px; text-align: center;">
         <h3 style="margin-bottom: 1rem;">Enter Queue Name</h3>
-        <input id="new-queue-name" type="text" placeholder="e.g. Debug Queue" style="width: 100%; padding: 0.75rem; font-size: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <input id="new-queue-name" type="text" placeholder="e.g. Checkoff Queue" style="width: 100%; padding: 0.75rem; font-size: 1rem; border-radius: 8px; margin-bottom: 1rem;">
         <div style="display: flex; justify-content:space-between; gap: 1rem;">
           <button onclick="createNewQueue()" style="padding: 0.5rem 1rem; background-color: #272838; color: white; border-radius: 8px;">Create</button>
           <button onclick="closeAddQueueModal()" style="padding: 0.5rem 1rem; background-color: #ccc; border-radius: 8px;">Cancel</button>
@@ -459,6 +484,7 @@
         document.getElementById('home-view').style.display = 'none';
         roomView.style.display = 'block';
         document.getElementById('room-display').textContent = `Room: ${code}`;
+        listenToQueue(code);
       } else {
         alert('Please enter a valid 5-character room code.');
       }
@@ -527,6 +553,7 @@
       });
 
       roomView.appendChild(section);
+      addToFirebaseQueue(document.getElementById('room-code').value.trim().toUpperCase(), val);
       closeAddQueueModal();
     }
 
@@ -557,6 +584,40 @@
         const addedAt = parseInt(timer.getAttribute('data-added-at'));
         const elapsedMs = now - addedAt;
         timer.textContent = elapsedMs < 60000 ? "just now" : `${Math.floor(elapsedMs / 60000)} min`;
+      });
+    }
+
+    function addToFirebaseQueue(roomCode, station) {
+      const timestamp = Date.now();
+      db.ref(`rooms/${roomCode}/queue`).push({
+        station,
+        timestamp
+      });
+    }
+
+    function listenToQueue(roomCode) {
+      db.ref(`rooms/${roomCode}/queue`).on('value', snapshot => {
+        const data = snapshot.val() || {};
+        updateQueueUI(Object.values(data)); // This should render the tiles
+      });
+    }
+
+    function updateQueueUI(queueData) {
+      const box = document.querySelector('.queue-box'); // or dynamically find the right one
+      box.innerHTML = ''; // clear previous state
+
+      queueData.forEach(({ station, timestamp }) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.dataset.station = station;
+
+        tile.innerHTML = `
+          <div class="station-number">${station}</div>
+          <div class="tile-timer" data-added-at="${timestamp}">just now</div>
+          <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
+        `;
+
+        box.appendChild(tile);
       });
     }
 
