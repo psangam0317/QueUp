@@ -166,6 +166,7 @@
       justify-content: flex-start; /* Align tiles to the left */
       gap: 2rem;                   /* Space between tiles */
       margin-top: 2rem;
+      transition: all 200ms ease-in-out;
     }
 
     .queue-box .tile {
@@ -181,6 +182,7 @@
       border-radius: 16px;
       flex-direction: column;
       font-size: 3.5rem; /* Make the number match the tile size */
+      transition: transform 200ms ease, opacity 200ms ease;
     }
 
 
@@ -286,6 +288,21 @@
       text-align: right;
     }
 
+    @keyframes fadeZoomOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    .tile.removing {
+      animation: fadeZoomOut 300ms ease-out forwards;
+    }
+
   </style>
   
 </head>
@@ -387,7 +404,8 @@
 
     function removeFromQueue(button) {
       const tile = button.parentElement;
-      tile.remove();
+      tile.classList.add('removing');
+      tile.addEventListener('animationend', () => tile.remove());
     }
 
     let hideTimeout;
