@@ -443,8 +443,14 @@
       const now = Date.now();
       document.querySelectorAll('.tile-timer').forEach(timer => {
         const addedAt = parseInt(timer.getAttribute('data-added-at'));
-        const minutes = Math.floor((now - addedAt) / 60000); // milliseconds to minutes
-        timer.textContent = minutes === 0 ? "just now" : `${minutes} min`;
+        const elapsedMs = now - addedAt;
+
+        if (elapsedMs < 60000) {
+          timer.textContent = "just now";
+        } else {
+          const minutes = Math.floor(elapsedMs / 60000);
+          timer.textContent = `${minutes} min`;
+        }
       });
     }
 
